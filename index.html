@@ -1,0 +1,59 @@
+<html>
+    <head>
+        <title>Is Anton rekt or not?</title>
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Poiret+One&display=swap" rel="stylesheet">
+        <style>
+            body
+            {
+                background-color:azure;
+                font-family: 'Poiret One', cursive;
+                font-size: 64px;
+                width: 100%;
+            }
+
+            .price {
+                color: red;
+            }
+
+            .content {
+                margin-top: 10%;
+                text-align: center;
+            }
+        </style>
+    </head>
+    <body>
+        <script type="application/javascript">
+            var formatter = new Intl.NumberFormat('sv-SE', {
+                style: 'currency',
+                currency: 'SEK',
+                });
+
+
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                
+                    var result = JSON.parse(xhttp.response);
+                    var antonsPriceInSek = formatter.format(result.ethereum.sek * 0.07);
+                    var pizzaPriceInSek = formatter.format(result.bitcoin.sek * 10000);
+
+                    document.getElementById("antonPrice").innerHTML = antonsPriceInSek;
+                    document.getElementById("pizzaPrice").innerHTML = pizzaPriceInSek;
+                }
+            }
+
+            xhttp.open("GET", "https://api.coingecko.com/api/v3/simple/price?ids=ethereum,bitcoin&vs_currencies=sek%2Cusd", true);
+            xhttp.send();
+
+        </script>
+        <div class="content">
+            <p>
+                Anton paid <span class="price" id="antonPrice"></span> for 3 nights in Säfsen in 2021.
+            </p>
+            <p>
+                ..no worries though, in 2010 a guy bought two pizzas for <span class="price" id="pizzaPrice"></span>.
+            </p>
+        </div>
+    </body>
+</html>
