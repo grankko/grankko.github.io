@@ -8,6 +8,14 @@ body
     padding: 0px;
 }
 
+a {
+    text-decoration: none;
+}
+
+a:hover {
+    color:maroon;
+}
+
 .price {
     color: red;
 }
