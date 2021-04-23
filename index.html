@@ -1,28 +1,8 @@
 <html>
     <head>
         <title>Is Anton rekt or not?</title>
-        <link rel="preconnect" href="https://fonts.gstatic.com">
-        <link href="https://fonts.googleapis.com/css2?family=Poiret+One&display=swap" rel="stylesheet">
-        <style>
-            body
-            {
-                background-color:azure;
-                font-family: 'Poiret One', cursive;
-                font-size: 3em;
-                width: 100%;
-                margin: 0px;
-                padding: 0px;
-            }
-
-            .price {
-                color: red;
-            }
-
-            .content {
-                text-align: center;
-                margin: 2em;
-            }
-        </style>
+        <link href="styles/css/fonts.css" rel="stylesheet">
+        <link href="styles/css/site.css" rel="stylesheet">
     </head>
     <body>
         <script type="application/javascript">
@@ -30,7 +10,6 @@
                 style: 'currency',
                 currency: 'SEK',
                 });
-
 
             var xhttp = new XMLHttpRequest();
             xhttp.onreadystatechange = function() {
@@ -45,8 +24,16 @@
                 }
             }
 
-            xhttp.open("GET", "https://api.coingecko.com/api/v3/simple/price?ids=ethereum,bitcoin&vs_currencies=sek%2Cusd", true);
-            xhttp.send();
+            window.setInterval(function() {
+                callCoinGecko();
+            }, 45*1000);
+
+            function callCoinGecko() {
+                xhttp.open("GET", "https://api.coingecko.com/api/v3/simple/price?ids=ethereum,bitcoin&vs_currencies=sek", true);
+                xhttp.send();
+            }
+
+            callCoinGecko();
 
         </script>
         <div class="content">
