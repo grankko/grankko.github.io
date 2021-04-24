@@ -2,13 +2,17 @@
 <html lang="en-US">
     <head>       
         <title>Is Anton rekt or not?</title>
+        <meta name="description" content="Tracks if Antons decision to buy a fishing trip to Safsen with ETH was a good idea." />
         <link href="styles/css/fonts.css" rel="stylesheet">
         <link href="styles/css/site.css" rel="stylesheet">
     </head>
     <body>
         <!-- https://github.com/grankko/grankko.github.io -->
         <script type="application/javascript">
-            const updateInteral = 45*1000;
+            const updateInterval = 45*1000;
+            const safsenSekAmount = 1370;
+            const antonEthAmount = 0.075229;
+            const pizzaBtcAmount = 10000;
 
             var formatter = new Intl.NumberFormat('sv-SE', {
                 style: 'currency',
@@ -20,11 +24,11 @@
                 if (this.readyState == 4 && this.status == 200) {
                 
                     var apiResult = JSON.parse(xhttp.response);
-                    var antonsPriceInSek = (apiResult.ethereum.sek * 0.075229);
-                    var pizzaPriceInSek = apiResult.bitcoin.sek * 10000;
+                    var antonsPriceInSek = (apiResult.ethereum.sek * antonEthAmount);
+                    var pizzaPriceInSek = apiResult.bitcoin.sek * pizzaBtcAmount;
                     
-                    var isAntonRekt = antonsPriceInSek > 1370;
-                    var antonsLossOrWin = formatter.format(Math.abs(1370 - antonsPriceInSek));
+                    var isAntonRekt = antonsPriceInSek > safsenSekAmount;
+                    var antonsLossOrWin = formatter.format(Math.abs(safsenSekAmount - antonsPriceInSek));
 
                     document.getElementById("antonPrice").innerText = formatter.format(antonsPriceInSek);
                     
@@ -41,7 +45,7 @@
 
             window.setInterval(function() {
                 callCoinGecko();
-            }, updateInteral);
+            }, updateInterval);
 
             function callCoinGecko() {
                 xhttp.open("GET", "https://api.coingecko.com/api/v3/simple/price?ids=ethereum,bitcoin&vs_currencies=sek", true);
