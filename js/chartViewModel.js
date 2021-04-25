@@ -1,15 +1,15 @@
 'use strict';
 
 import { coinGeckoProxy } from './coinGeckoProxy.js';
-import ApexCharts from "./apexcharts/apexcharts.esm.js";
+import ApexCharts from './apexcharts/apexcharts.esm.js';
 
 class chartViewModel {
     constructor() {
 
         this.sekPriceAtTxTime = 19274;
-        this.txTime = new Date('13 Apr 2021 18:21:02 UTC');
+        this.txDate = new Date('13 Apr 2021 18:21:02 UTC');
         
-        var chartNumberOfDays = this.daysBetween(this.txTime, new Date()) + 2;
+        var chartNumberOfDays = this.getDaysSinceTx() + 2;
         var apiUrl = `https://api.coingecko.com/api/v3/coins/ethereum/market_chart?vs_currency=sek&days=${chartNumberOfDays}&interval=daily`;
 
         this.geckoProxy = new coinGeckoProxy(this.handleApiResult, apiUrl);
@@ -25,17 +25,10 @@ class chartViewModel {
         this.geckoProxy.callApi();
     }
 
-    daysBetween(StartDate, EndDate) {
-        // The number of milliseconds in all UTC days (no DST)
-        const oneDay = 1000 * 60 * 60 * 24;
-      
-        // A day in UTC always lasts 24 hours (unlike in other time formats)
-        const start = Date.UTC(EndDate.getFullYear(), EndDate.getMonth(), EndDate.getDate());
-        const end = Date.UTC(StartDate.getFullYear(), StartDate.getMonth(), StartDate.getDate());
-      
-        // so it's safe to divide by 24 hours
-        return (start - end) / oneDay;
-    }   
+    getDaysSinceTx() {
+        const oneDayInMs = 24 * 60 * 60 * 1000;        
+        return Math.round(Math.abs((this.txDate - new Date()) / oneDayInMs));
+    }
 
     drawChart(data) {
         var options = {
@@ -52,7 +45,7 @@ class chartViewModel {
           },
           annotations: {
             points: [{
-              x: this.txTime.getTime(),
+              x: this.txDate.getTime(),
               y: this.sekPriceAtTxTime,
               marker: {
                 size: 8,
@@ -112,7 +105,7 @@ class chartViewModel {
           }
           };
   
-          var chart = new ApexCharts(document.querySelector("#ethPriceChart"), options);
+          var chart = new ApexCharts(document.querySelector('#ethPriceChart'), options);
           chart.render();
     }
 }

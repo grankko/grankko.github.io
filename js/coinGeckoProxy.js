@@ -16,7 +16,7 @@ class coinGeckoProxy {
     }
 
     callApi() {
-        this.apiRequest.open("GET", this.url, true);
+        this.apiRequest.open('GET', this.url, true);
         this.apiRequest.send();
     }
 }

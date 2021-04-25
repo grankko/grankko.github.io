@@ -4,10 +4,10 @@ import { coinGeckoProxy } from './coinGeckoProxy.js';
 
 class rektViewModel {
     constructor() {
-        this.geckoProxy = new coinGeckoProxy(this.handleApiResult, "https://api.coingecko.com/api/v3/simple/price?ids=ethereum,bitcoin&vs_currencies=sek");
-        this.formatter = new Intl.NumberFormat("sv-SE", {
-            style: "currency",
-            currency: "SEK",
+        this.geckoProxy = new coinGeckoProxy(this.handleApiResult, 'https://api.coingecko.com/api/v3/simple/price?ids=ethereum,bitcoin&vs_currencies=sek');
+        this.formatter = new Intl.NumberFormat('sv-SE', {
+            style: 'currency',
+            currency: 'SEK',
         });
 
         this.updateInterval = 45 * 1000;
@@ -24,17 +24,15 @@ class rektViewModel {
         
         var antonsLossOrWin = this.formatter.format(Math.abs(this.safsenSekAmount - antonsPriceInSek));
 
-        document.getElementById("antonPrice").innerText = this.formatter.format(antonsPriceInSek);
         var resultElement = document.getElementById("resultInSek");
         resultElement.innerText = antonsLossOrWin;
         resultElement.classList.remove(...resultElement.classList);
-        resultElement.classList.add(isAntonRekt ? "loss" : "win");
+        resultElement.classList.add(isAntonRekt ? 'loss' : 'win');
 
-        document.getElementById("resultIsRekt").innerText = isAntonRekt ? "more" : "less";
-
-        document.getElementById("pizzaPrice").innerText = this.formatter.format(pizzaPriceInSek);
-
-        document.getElementById("currentEthPriceInSek").innerText = this.formatter.format(apiResult.ethereum.sek);
+        document.getElementById('antonPrice').innerText = this.formatter.format(antonsPriceInSek);
+        document.getElementById('resultIsRekt').innerText = isAntonRekt ? 'more' : 'less';
+        document.getElementById('pizzaPrice').innerText = this.formatter.format(pizzaPriceInSek);
+        document.getElementById('currentEthPriceInSek').innerText = this.formatter.format(apiResult.ethereum.sek);
 
     }).bind(this);
 
