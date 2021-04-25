@@ -2,65 +2,24 @@
 <html lang="en-US">
     <head>       
         <title>Is Anton rekt or not?</title>
-        <meta name="description" content="Tracks if Antons decision to buy a fishing trip to Safsen with ETH was a good idea." />
+        <meta name="description" content="Tracks if Antons decision to buy a fishing trip to Säfsen with ETH was a good idea." />
         <link href="styles/css/fonts.css" rel="stylesheet">
         <link href="styles/css/site.css" rel="stylesheet">
+        <link href="styles/css/apexcharts.css" rel="stylesheet">
     </head>
     <body>
         <!-- https://github.com/grankko/grankko.github.io -->
-        <script type="application/javascript">
-            const updateInterval = 45*1000;
-            const safsenSekAmount = 1370;
-            const antonEthAmount = 0.075229;
-            const pizzaBtcAmount = 10000;
-
-            var formatter = new Intl.NumberFormat('sv-SE', {
-                style: 'currency',
-                currency: 'SEK',
-                });
-
-            var xhttp = new XMLHttpRequest();
-            xhttp.onreadystatechange = function() {
-                if (this.readyState == 4 && this.status == 200) {
-                
-                    var apiResult = JSON.parse(xhttp.response);
-                    var antonsPriceInSek = (apiResult.ethereum.sek * antonEthAmount);
-                    var pizzaPriceInSek = apiResult.bitcoin.sek * pizzaBtcAmount;
-                    
-                    var isAntonRekt = antonsPriceInSek > safsenSekAmount;
-                    var antonsLossOrWin = formatter.format(Math.abs(safsenSekAmount - antonsPriceInSek));
-
-                    document.getElementById("antonPrice").innerText = formatter.format(antonsPriceInSek);
-                    
-                    var resultElement = document.getElementById("resultInSek");
-                    resultElement.innerText = antonsLossOrWin;
-                    resultElement.classList.remove(...resultElement.classList);
-                    resultElement.classList.add((isAntonRekt ? "loss" : "win"));
-
-                    document.getElementById("resultIsRekt").innerText = (isAntonRekt ? 'more' : 'less')
-
-                    document.getElementById("pizzaPrice").innerText = formatter.format(pizzaPriceInSek);
-                }
-            }
-
-            window.setInterval(function() {
-                callCoinGecko();
-            }, updateInterval);
-
-            function callCoinGecko() {
-                xhttp.open("GET", "https://api.coingecko.com/api/v3/simple/price?ids=ethereum,bitcoin&vs_currencies=sek", true);
-                xhttp.send();
-            }
-
-            callCoinGecko();
-
-        </script>
         <div class="content">
             <p>Anton paid <a target="_blank" href="https://etherscan.io/tx/0x023076e7ac4e38dbc6b9fe3c3d4288ac26646be3e6cebffc97b97885a7b8b456" class="price" id="antonPrice">...</a> for three nights in Säfsen in 2021. That is <span id="resultInSek">...</span> <span id="resultIsRekt"></span> than what everyone else paid.</p>
             <p>..no worries though, in 2010 a guy bought two pizzas for <a target="_blank" href="https://bitcoinpizzaindex.net/" class="price" id="pizzaPrice">...</a>.</p>
+            <p>The current price of 1 ETH is <span class="price" id="currentEthPriceInSek">...</span></p>
+            <div class="chartContainer">
+                <div id="ethPriceChart" height="400" width="400"></div>
+            </div>
         </div>
         <div class="mention">
             <a target="_blank" href="https://www.coingecko.com/en/api">Powered by CoinGecko API</a>
         </div>
+        <script type="module" src="js/app.js"></script>
     </body>
 </html>
