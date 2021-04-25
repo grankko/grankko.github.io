@@ -6,7 +6,8 @@ import ApexCharts from './apexcharts/apexcharts.esm.js';
 class chartViewModel {
     constructor() {
 
-        this.sekPriceAtTxTime = 19274;
+        this.sekPrice = 1370;
+        this.antonEthAmount = 0.075229;        
         this.txDate = new Date('13 Apr 2021 18:21:02 UTC');
         
         var chartNumberOfDays = this.getDaysSinceTx() + 2;
@@ -16,9 +17,14 @@ class chartViewModel {
     }
 
     handleApiResult = (function(apiResult) {
-        console.log('..got chart data');
+        
+        var pricePoints = [];
 
-        this.drawChart(apiResult.prices);
+        apiResult.prices.forEach(point => {
+            pricePoints.push([point[0], (point[1] * this.antonEthAmount).toFixed(0)]);
+        });
+
+        this.drawChart(pricePoints);
     }).bind(this);
 
     update() {
@@ -33,7 +39,7 @@ class chartViewModel {
     drawChart(data) {
         var options = {
             series: [{
-            name: 'ETH SEK',
+            name: 'What Anton paid',
             data: data
           }],
             chart: {
@@ -44,16 +50,18 @@ class chartViewModel {
             }
           },
           annotations: {
-            points: [{
-              x: this.txDate.getTime(),
-              y: this.sekPriceAtTxTime,
-              marker: {
-                size: 8,
-                fillColor: '#fff',
-                strokeColor: 'red',
-                radius: 2,
-                cssClass: 'apexcharts-custom-class'
-              }
+            yaxis: [{
+                y: this.sekPrice,
+                borderColor: '#00E396',
+                label: {
+                  borderColor: '#00E396',
+                  style: {
+                    color: '#fff',
+                    background: '#00E396',
+                    fontSize: '20px',
+                  },
+                  text: 'What we paid'
+                }
             }]
           },
           dataLabels: {
@@ -79,7 +87,12 @@ class chartViewModel {
               },
             },
             title: {
-              text: 'SEK / ETH'
+              text: 'What Anton paid',
+              style: {
+                  fontSize: '20px',
+                  fontFamily: 'Helvetica, Arial, sans-serif',
+                  fontWeight: '600',
+              }
             },
           },
           xaxis: {
