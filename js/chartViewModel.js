@@ -53,16 +53,6 @@ class chartViewModel {
                 strokeColor: 'red',
                 radius: 2,
                 cssClass: 'apexcharts-custom-class'
-              },
-              label: {
-                borderColor: '#FF4560',
-                offsetY: 0,
-                style: {
-                  color: '#fff',
-                  background: '#FF4560',
-                },
-          
-                text: 'Antons transaction',
               }
             }]
           },
