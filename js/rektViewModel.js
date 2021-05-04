@@ -4,11 +4,15 @@ import { coinGeckoProxy } from './coinGeckoProxy.js';
 
 class rektViewModel {
     constructor() {
-        this.geckoProxy = new coinGeckoProxy(this.handleApiResult, 'https://api.coingecko.com/api/v3/simple/price?ids=ethereum,bitcoin&vs_currencies=sek');
-        this.formatter = new Intl.NumberFormat('sv-SE', {
+        this.geckoProxy = new coinGeckoProxy(this.handleApiResult, 'https://api.coingecko.com/api/v3/simple/price?ids=ethereum,bitcoin&vs_currencies=sek,usd');
+        this.sekFormatter = new Intl.NumberFormat('sv-SE', {
             style: 'currency',
             currency: 'SEK',
         });
+        this.usdFormatter = new Intl.NumberFormat('en-US', {
+            style: 'currency',
+            currency: 'USD',
+        });        
 
         this.updateInterval = 45 * 1000;
         this.safsenSekAmount = 1370;
@@ -22,17 +26,18 @@ class rektViewModel {
         var pizzaPriceInSek = apiResult.bitcoin.sek * this.pizzaBtcAmount;
         var isAntonRekt = antonsPriceInSek > this.safsenSekAmount;
         
-        var antonsLossOrWin = this.formatter.format(Math.abs(this.safsenSekAmount - antonsPriceInSek));
+        var antonsLossOrWin = this.sekFormatter.format(Math.abs(this.safsenSekAmount - antonsPriceInSek));
 
         var resultElement = document.getElementById("resultInSek");
         resultElement.innerText = antonsLossOrWin;
         resultElement.classList.remove(...resultElement.classList);
         resultElement.classList.add(isAntonRekt ? 'loss' : 'win');
 
-        document.getElementById('antonPrice').innerText = this.formatter.format(antonsPriceInSek);
+        document.getElementById('antonPrice').innerText = this.sekFormatter.format(antonsPriceInSek);
         document.getElementById('resultIsRekt').innerText = isAntonRekt ? 'more' : 'less';
-        document.getElementById('pizzaPrice').innerText = this.formatter.format(pizzaPriceInSek);
-        document.getElementById('currentEthPriceInSek').innerText = this.formatter.format(apiResult.ethereum.sek);
+        document.getElementById('pizzaPrice').innerText = this.sekFormatter.format(pizzaPriceInSek);
+        document.getElementById('currentEthPriceInSek').innerText = this.sekFormatter.format(apiResult.ethereum.sek);
+        document.getElementById('currentEthPriceInUsd').innerText = this.usdFormatter.format(apiResult.ethereum.usd);
 
     }).bind(this);
 
