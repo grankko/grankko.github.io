@@ -55,6 +55,8 @@ class chartViewModel {
                 borderColor: '#00E396',
                 label: {
                   borderColor: '#00E396',
+                  position: 'left',
+                  textAnchor: 'start',
                   style: {
                     color: '#fff',
                     background: '#00E396',
