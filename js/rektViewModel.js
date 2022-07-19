@@ -27,17 +27,25 @@ class rektViewModel {
         var isAntonRekt = antonsPriceInSek > this.safsenSekAmount;
         
         var antonsLossOrWin = this.sekFormatter.format(Math.abs(this.safsenSekAmount - antonsPriceInSek));
-
-        var resultElement = document.getElementById("resultInSek");
+        var antonRektnessIndex = Math.round((apiResult.ethereum.sek / (this.safsenSekAmount / this.antonEthAmount)) * 100);
+        
+        var resultElement = document.getElementById('resultInSek');
         resultElement.innerText = antonsLossOrWin;
         resultElement.classList.remove(...resultElement.classList);
         resultElement.classList.add(isAntonRekt ? 'loss' : 'win');
+
+        var ariElement = document.getElementById('ari');
+        ariElement.classList.remove(...ariElement.classList);
+        ariElement.classList.add(antonRektnessIndex < 100 ? 'loss' : 'win');
+        ariElement.innerText = antonRektnessIndex;
 
         document.getElementById('antonPrice').innerText = this.sekFormatter.format(antonsPriceInSek);
         document.getElementById('resultIsRekt').innerText = isAntonRekt ? 'more' : 'less';
         document.getElementById('pizzaPrice').innerText = this.sekFormatter.format(pizzaPriceInSek);
         document.getElementById('currentEthPriceInSek').innerText = this.sekFormatter.format(apiResult.ethereum.sek);
         document.getElementById('currentEthPriceInUsd').innerText = this.usdFormatter.format(apiResult.ethereum.usd);
+        
+        
 
     }).bind(this);
 

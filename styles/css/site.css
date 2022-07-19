@@ -1,3 +1,8 @@
+html, body {
+    height:100%;
+    overflow: hidden;
+}
+
 body
 {
     background-color:azure;
@@ -26,7 +31,16 @@ a:hover {
 
 .content {
     text-align: center;
-    margin: 2em;
+    margin-left: 2em;
+    margin-right: 2em;
+    overflow-y:scroll;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+    height: 95%;
+}
+
+.content::-webkit-scrollbar {
+    display: none;
 }
 
 .chartContainer {
@@ -37,12 +51,13 @@ a:hover {
 }
 
 .mention {
-    font-size: 0.7em;
-    position: fixed;
-    margin: 1em;
+    font-size: 0.5em;
     font-weight: 600;
+    position:static;
     bottom: 0;
-    right: 0;
+    height: 5%;
+    text-align: right;
+    padding: 0.5em;
 }
 
 .loss {
