@@ -36,7 +36,7 @@ a:hover {
     overflow-y:scroll;
     -ms-overflow-style: none;  /* IE and Edge */
     scrollbar-width: none;  /* Firefox */
-    height: 95%;
+    height: 90%;
 }
 
 .content::-webkit-scrollbar {
@@ -55,7 +55,6 @@ a:hover {
     font-weight: 600;
     position:static;
     bottom: 0;
-    height: 5%;
     text-align: right;
     padding: 0.5em;
 }
